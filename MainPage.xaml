@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"  
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"  
+            x:Class="OrthoGlitch.MainPage"  
+            Title="ORTHOGLITCH"  
+            NavigationPage.HasNavigationBar="False">  
+
+   <Grid x:Name="MainGrid"  
+         BackgroundColor="#100a20"  
+         RowDefinitions="Auto, *, Auto, Auto, Auto">  
+
+       <!-- HEADER -->  
+       <Grid Grid.Row="0" Padding="20,40,20,20" ColumnDefinitions="*,*">  
+           <VerticalStackLayout Grid.Column="0" Spacing="5" HorizontalOptions="Start">  
+               <Label x:Name="ScoreLabel" Text="SCORE: 0" TextColor="White" FontSize="18" FontAttributes="Bold"/>  
+               <Label x:Name="StreakLabel" Text="STREAK: 0" TextColor="#00FFFF" FontSize="16" FontAttributes="Italic"/>  
+           </VerticalStackLayout>  
+
+           <Border Grid.Column="1" Stroke="#888" StrokeThickness="1" BackgroundColor="#222" Padding="0" HeightRequest="45" WidthRequest="200" HorizontalOptions="End">  
+               <Picker x:Name="DifficultyPicker"  
+                       Title="SELECT LEVEL"  
+                       TitleColor="#AAA"  
+                       TextColor="White"  
+                       FontSize="14"  
+                       SelectedIndexChanged="OnDifficultyChanged"/>  
+           </Border>  
+       </Grid>  
+
+       <!-- INFO + CONTROLS -->  
+       <VerticalStackLayout Grid.Row="1" Spacing="15" VerticalOptions="Center" HorizontalOptions="Center" Padding="20,0">  
+           <Label x:Name="LevelLabel"  
+                  Text="LEVEL"  
+                  TextColor="White"  
+                  FontSize="36"  
+                  HorizontalOptions="Center"  
+                  FontAttributes="Bold"/>  
+
+           <Label x:Name="ProgressLabel"  
+                  Text="PROGRESS: 0/25"  
+                  TextColor="Azure"  
+                  FontSize="14"  
+                  HorizontalOptions="Center"/>  
+
+           <Button x:Name="GenerateWordButton"  
+                   Text="➕ NEW WORD"  
+                   BackgroundColor="RosyBrown"  
+                   TextColor="White"  
+                   FontAttributes="Bold"  
+                   CornerRadius="8"  
+                   Margin="0,30,0,0"  
+                   HeightRequest="55"  
+                   WidthRequest="250"  
+                   Clicked="OnGenerateWordClicked"/>  
+
+           <Button x:Name="ReplayWordButton"  
+                   Text="🔊 REPLAY WORD"  
+                   BackgroundColor="CornflowerBlue"  
+                   BorderColor="SandyBrown"  
+                   BorderWidth="1"  
+                   TextColor="RosyBrown"  
+                   FontAttributes="Bold"  
+                   CornerRadius="8"  
+                   HeightRequest="55"  
+                   WidthRequest="250"  
+                   Clicked="OnReplayWordClicked"/>  
+       </VerticalStackLayout>  
+
+       <!-- CURRENT ATTEMPT -->  
+       <Border Grid.Row="2" Stroke="Aquamarine" StrokeThickness="1" Margin="20,0" HeightRequest="55" BackgroundColor="#1a1a1a">  
+           <Label x:Name="CurrentAttemptLabel"  
+                  Text="Your Attempt: "  
+                  TextColor="Brown"  
+                  FontSize="20"  
+                  FontAttributes="Bold"  
+                  VerticalOptions="Center"  
+                  HorizontalOptions="Center"/>  
+       </Border>  
+
+       <!-- VERIFY -->  
+       <HorizontalStackLayout Grid.Row="3" Spacing="20" HorizontalOptions="Center">  
+           <Button x:Name="BackspaceButton"  
+                   Text="Backspace"  
+                   BackgroundColor="RosyBrown"  
+                   TextColor="Black"  
+                   FontAttributes="Bold"  
+                   CornerRadius="8"  
+                   WidthRequest="150"  
+                   HeightRequest="60"  
+                   Clicked="OnBackspaceClicked"/>  
+
+           <Button x:Name="SkipWordButton"  
+                   Text="⏭"  
+                   BackgroundColor="SaddleBrown"  
+                   TextColor="White"  
+                   FontAttributes="Bold"  
+                   CornerRadius="8"  
+                   WidthRequest="150"  
+                   HeightRequest="60"  
+                   Clicked="OnSkipWordClicked"/>  
+       </HorizontalStackLayout>  
+
+       <!-- FLEX LETTERS -->  
+       <FlexLayout Grid.Row="4"  
+                   x:Name="LetterButtonsLayout"  
+                   Direction="Row"  
+                   Wrap="Wrap"  
+                   JustifyContent="SpaceEvenly"  
+                   AlignItems="Center"  
+                   Padding="15"  
+                   BackgroundColor="{AppThemeBinding Light=#f8f9fa, Dark=#2c3e50}">  
+
+           <!-- Letter buttons will be added dynamically -->  
+
+           <!-- Style for letter buttons -->  
+           <FlexLayout.Resources>  
+               <ResourceDictionary>  
+                   <Style TargetType="Button" x:Key="LetterButtonStyle">  
+                       <Setter Property="FontSize" Value="24"/>  
+                       <Setter Property="FontAttributes" Value="Bold"/>  
+                       <Setter Property="TextColor" Value="{AppThemeBinding Light=#212529, Dark=#f8f9fa}"/>  
+                       <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=#e9ecef, Dark=#495057}"/>  
+                       <Setter Property="CornerRadius" Value="10"/>  
+                       <Setter Property="WidthRequest" Value="50"/>  
+                       <Setter Property="HeightRequest" Value="50"/>  
+                       <Setter Property="Margin" Value="8"/>  
+                       <Setter Property="Padding" Value="0"/>  
+                       <Setter Property="VisualStateManager.VisualStateGroups">  
+                           <VisualStateGroupList>  
+                               <VisualStateGroup x:Name="CommonStates">  
+                                   <VisualState x:Name="Normal"/>  
+                                   <VisualState x:Name="Pressed">  
+                                       <VisualState.Setters>  
+                                           <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=#ced4da, Dark=#6c757d}"/>  
+                                           <Setter Property="Scale" Value="0.95"/>  
+                                       </VisualState.Setters>  
+                                   </VisualState>  
+                                   <VisualState x:Name="Disabled">  
+                                       <VisualState.Setters>  
+                                           <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=#adb5bd, Dark=#343a40}"/>  
+                                           <Setter Property="TextColor" Value="{AppThemeBinding Light=#6c757d, Dark=#adb5bd}"/>  
+                                       </VisualState.Setters>  
+                                   </VisualState>  
+                               </VisualStateGroup>  
+                           </VisualStateGroupList>  
+                       </Setter>  
+                   </Style>  
+               </ResourceDictionary>  
+           </FlexLayout.Resources>  
+       </FlexLayout>  
+   </Grid>  
+</ContentPage>
